@@ -1,0 +1,16 @@
+.PHONY: all clean
+
+COMPOSER := composer
+
+all:
+	cat $(lastword $(MAKEFILE_LIST))
+
+install: \
+	vendor
+
+vendor:
+	$(COMPOSER) install
+
+clean:
+	rm -rf vendor
+
