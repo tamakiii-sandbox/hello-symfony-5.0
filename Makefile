@@ -1,6 +1,5 @@
 .PHONY: all clean
 
-PHP := php
 COMPOSER := composer
 
 all:
