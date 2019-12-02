@@ -5,3 +5,12 @@ services:
     working_dir: /project
     volumes:
       - .:/project
+
+  nginx:
+    build: docker/nginx
+    working_dir: /project
+    ports:
+      - ${PORT_HTTP:-8080}:80
+    volumes:
+      - .:/project
+
