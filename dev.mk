@@ -21,6 +21,5 @@ docker-compose.override.yml:
 	cp docker/$@ $@
 
 clean:
-	rm -rf app
 	rm -rf .env
 
