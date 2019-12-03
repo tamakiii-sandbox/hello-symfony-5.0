@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all install clean
 
 COMPOSER := composer
 
