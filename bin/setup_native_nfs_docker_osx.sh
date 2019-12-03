@@ -39,10 +39,8 @@ fi
 echo ""
 
 echo "WARNING: This script will overwrite those files"
-echo "- ~/Library/LaunchAgents/com.apple.nfsd.plist"
-echo "- ~/Library/LaunchAgents/com.apple.nfsconf.plist"
-echo "- /usr/local/etc/exports"
-echo "- /usr/local/etc/nfs.conf"
+echo "- /etc/exports"
+echo "- /etc/nfs.conf"
 echo -n "Do you wish to proceed? [y]: "
 read decision
 
@@ -53,32 +51,24 @@ fi
 
 echo ""
 
-echo "== Creating /etc/local/etc/exports"
-echo "/System/Volumes/Data/Users/ -alldirs -mapall=$U:$G localhost" > /usr/local/etc/exports
+# /etc/nfs.conf
+if grep '^nfs.server.mount.require_resv_port = 0' /etc/nfs.conf > /dev/null; then
+  echo "Found \"nfs.server.mount.require_resv_port = 0\" in /etc/nfs.conf. OK"
+else
+  echo "ERROR: Please edit \"/etc/nfs.conf\" like \"sudo vim /etc/nfs.conf\" because of System Integrity Protection."
+  cat /etc/nfs.conf
+  echo "nfs.server.mount.require_resv_port = 0"
+  exit 2
+fi
 
-echo "== Creating /usr/local/etc/nfs.conf"
-cat <<EOF > /usr/local/etc/nfs.conf
-#
-# nfs.conf: the NFS configuration file
-#
-nfs.server.mount.require_resv_port = 0
-EOF
-
-
-echo "== Create .plist files in ~/Library/LaunchDaemons"
-cp /System/Library/LaunchDaemons/com.apple.nfsd.plist ~/Library/LaunchAgents/com.apple.nfsd.plist
-cp /System/Library/LaunchDaemons/com.apple.nfsconf.plist ~/Library/LaunchAgents/com.apple.nfsconf.plist
-
-plutil -replace Label -string 'com.apple.nfsd.localhost' ~/Library/LaunchAgents/com.apple.nfsd.plist
-plutil -replace Label -string 'com.apple.nfsconf.localhost' ~/Library/LaunchAgents/com.apple.nfsconf.plist
-
-plutil -replace KeepAlive.PathState -xml '<dict><key>/usr/local/etc/exports</key><true/></dict>' ~/Library/LaunchAgents/com.apple.nfsd.plist
-plutil -replace WatchPaths -xml '<array><string>/usr/local/etc/nfs.conf</string></array>' ~/Library/LaunchAgents/com.apple.nfsconf.plist
-
-launchctl load ~/Library/LaunchAgents/com.apple.nfsd.plist || true
-launchctl load ~/Library/LaunchAgents/com.apple.nfsconf.plist || true
-
-launchctl remove com.apple.nfsconf || true
+# /etc/exports
+if grep '/System/Volumes/Data/Users/ -alldirs' /etc/exports > /dev/null; then
+  echo "Found \"/System/Volumes/Data/Users/ -alldirs\" in /etc/exports OK"
+else
+  echo "ERROR: Please edit \"/etc/exports\" like \"sudo vim /etc/exports\" because of System Integrity Protection."
+  echo "/System/Volumes/Data/Users/ -alldirs -mapall=$U:$G localhost" > /usr/local/etc/exports
+  exit 3
+fi
 
 echo ""
 
@@ -98,6 +88,9 @@ osascript -e 'quit app "Docker"'
 
 echo "== Resetting folder permissions..."
 sudo chown -R "$U":"$G" $PWD
+
+echo "== Restarting nfsd..."
+sudo nfsd restart
 
 echo "== Restarting docker..."
 open -a Docker
