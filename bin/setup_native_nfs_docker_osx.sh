@@ -38,26 +38,15 @@ fi
 
 echo ""
 
-echo "WARNING: This script will overwrite those files"
-echo "- /etc/exports"
-echo "- /etc/nfs.conf"
-echo -n "Do you wish to proceed? [y]: "
-read decision
-
-if [ "$decision" != "y" ]; then
-  echo "Exiting. No changes made."
-  exit 1
-fi
-
-echo ""
-
 # /etc/nfs.conf
 if grep '^nfs.server.mount.require_resv_port = 0' /etc/nfs.conf > /dev/null; then
   echo "Found \"nfs.server.mount.require_resv_port = 0\" in /etc/nfs.conf. OK"
 else
   echo "ERROR: Please edit \"/etc/nfs.conf\" like \"sudo vim /etc/nfs.conf\" because of System Integrity Protection."
+  echo "````"
   cat /etc/nfs.conf
   echo "nfs.server.mount.require_resv_port = 0"
+  echo "````"
   exit 2
 fi
 
@@ -66,9 +55,13 @@ if grep '/System/Volumes/Data/Users/ -alldirs' /etc/exports > /dev/null; then
   echo "Found \"/System/Volumes/Data/Users/ -alldirs\" in /etc/exports OK"
 else
   echo "ERROR: Please edit \"/etc/exports\" like \"sudo vim /etc/exports\" because of System Integrity Protection."
+  echo "````"
   echo "/System/Volumes/Data/Users/ -alldirs -mapall=$U:$G localhost"
+  echo "````"
   echo "  or as root if you like"
+  echo "````"
   echo "/System/Volumes/Data/Users/ -alldirs -mapall=0:0 localhost"
+  echo "````"
   exit 3
 fi
 
@@ -87,9 +80,6 @@ docker-compose down
 docker-compose rm -v --stop
 
 osascript -e 'quit app "Docker"'
-
-echo "== Resetting folder permissions..."
-sudo chown -R "$U":"$G" $PWD
 
 echo "== Restarting nfsd..."
 sudo nfsd restart
