@@ -66,7 +66,7 @@ if grep '/System/Volumes/Data/Users/ -alldirs' /etc/exports > /dev/null; then
   echo "Found \"/System/Volumes/Data/Users/ -alldirs\" in /etc/exports OK"
 else
   echo "ERROR: Please edit \"/etc/exports\" like \"sudo vim /etc/exports\" because of System Integrity Protection."
-  echo "/System/Volumes/Data/Users/ -alldirs -mapall=$U:$G localhost" > /usr/local/etc/exports
+  echo "/System/Volumes/Data/Users/ -alldirs -mapall=$U:$G localhost"
   exit 3
 fi
 
