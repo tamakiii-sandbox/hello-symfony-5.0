@@ -12,6 +12,7 @@ FROM development AS debug
 
 RUN apk add --update --no-cache --virtual .builddeps gcc libc-dev autoconf && \
     pecl install xdebug && \
+    docker-php-ext-enable xdebug && \
     apk del .builddeps
 
 COPY php.ini /usr/local/etc/php/conf.d/xdebug.ini
