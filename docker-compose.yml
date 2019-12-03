@@ -6,7 +6,7 @@ services:
       target: ${ENVIRONMENT:-development}
     working_dir: /project
     volumes:
-      - project:/project:delegated
+      - project:/project:${MOUNT_TYPE:-consistent}
 
   nginx:
     build:
@@ -16,7 +16,7 @@ services:
     ports:
       - ${PORT_HTTP:-8080}:80
     volumes:
-      - project:/project:delegated
+      - project:/project:${MOUNT_TYPE:-consistent}
 
 volumes:
   project:
