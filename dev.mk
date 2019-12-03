@@ -18,9 +18,6 @@ all:
 	echo "CURRENT_DIR=$(DIR)" >> $@
 	echo "CURRENT_VOLUME_DIR=$(CURRENT_VOLUME_DIR)" >> $@
 
-docker-compose.override.yml:
-	cp docker/$@ $@
-
 clean:
 	rm -rf .env
 	rm -rf docker-compose.override.yml
