@@ -1,13 +1,17 @@
 version: "3.7"
 services:
   php:
-    build: docker/php
+    build:
+      context: docker/php
+      target: ${ENVIRONMENT:-development}
     working_dir: /project
     volumes:
       - .:/project
 
   nginx:
-    build: docker/nginx
+    build:
+      context: docker/nginx
+      target: ${ENVIRONMENT:-development}
     working_dir: /project
     ports:
       - ${PORT_HTTP:-8080}:80
