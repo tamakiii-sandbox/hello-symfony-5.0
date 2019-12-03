@@ -22,5 +22,5 @@ volumes:
   project:
     driver_opts:
       type: none
-      device: "."
+      device: "${DEVICE_DIR}"
       o: bind
