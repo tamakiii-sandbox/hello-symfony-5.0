@@ -10,6 +10,10 @@ CURRENT_VOLUME_DIR ?= $(realpath $(shell echo $(DIR) | sed 's|/Users|/System/Vol
 all:
 	cat $(lastword $(MAKEFILE_LIST))
 
+install: \
+	.env \
+	docker-compose.override.yml
+
 .env:
 	touch $@
 	echo "ENVIRONMENT=$(ENVIRONMENT)" >> $@
