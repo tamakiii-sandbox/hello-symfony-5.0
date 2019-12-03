@@ -14,4 +14,5 @@ docker-compose.override.yml: docker/docker-compose.macos.override.yml
 	cp $< $@
 
 clean:
+	rm -rf .env
 	rm -rf docker-compose.override.yml
