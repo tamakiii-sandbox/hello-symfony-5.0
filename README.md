@@ -1,1 +1,1 @@
-# hello-symfony-5.0.1
+# hello-symfony-5.0
