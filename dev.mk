@@ -17,6 +17,9 @@ all:
 	echo "MOUNT_TYPE=$(MOUNT_TYPE)" >> $@
 	echo "DEVICE_DIR=$(DEVICE_DIR)" >> $@
 
+docker-compose.override.yml:
+	cp docker/$@ $@
+
 clean:
 	rm -rf app
 	rm -rf .env
