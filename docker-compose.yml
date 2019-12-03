@@ -6,7 +6,7 @@ services:
       target: ${ENVIRONMENT:-development}
     working_dir: /project
     volumes:
-      - .:/project
+      - project:/project:delegated
 
   nginx:
     build:
@@ -16,5 +16,11 @@ services:
     ports:
       - ${PORT_HTTP:-8080}:80
     volumes:
-      - .:/project
+      - project:/project:delegated
 
+volumes:
+  project:
+    driver_opts:
+      type: none
+      device: "."
+      o: bind
