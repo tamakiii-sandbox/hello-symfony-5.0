@@ -64,7 +64,8 @@ cat <<EOF > /usr/local/etc/nfs.conf
 nfs.server.mount.require_resv_port = 0
 EOF
 
-echo "== Configuring NFS"
+
+echo "== Create .plist files in ~/Library/LaunchDaemons"
 cp /System/Library/LaunchDaemons/com.apple.nfsd.plist ~/Library/LaunchAgents/com.apple.nfsd.plist
 cp /System/Library/LaunchDaemons/com.apple.nfsconf.plist ~/Library/LaunchAgents/com.apple.nfsconf.plist
 
