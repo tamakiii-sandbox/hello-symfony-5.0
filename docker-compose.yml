@@ -6,7 +6,7 @@ services:
       target: ${ENVIRONMENT:-development}
     working_dir: /project
     volumes:
-      - project:/project:${MOUNT_TYPE:-consistent}
+      - project_volume:/project:${MOUNT_TYPE:-consistent}
 
   nginx:
     build:
@@ -16,10 +16,10 @@ services:
     ports:
       - ${PORT_HTTP:-8080}:80
     volumes:
-      - project:/project:${MOUNT_TYPE:-consistent}
+      - project_volume:/project:${MOUNT_TYPE:-consistent}
 
 volumes:
-  project:
+  project_volume:
     driver_opts:
       type: none
       device: "${DEVICE_DIR}"
