@@ -5,6 +5,6 @@ volumes:
     driver: local
     driver_opts:
       type: nfs
-      device: ":${NFS_DEVICE_DIR}"
+      device: ":${CURRENT_VOLUME_DIR}"
       o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
 

@@ -5,7 +5,7 @@ DIR := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 ENVIRONMENT := development
 PORT_HTTP := 8080
 MOUNT_TYPE := consistent
-DEVICE_DIR ?= $(realpath $(shell echo $(DIR) | sed 's|/Users|/System/Volumes/Data/Users|'))
+CURRENT_VOLUME_DIR ?= $(realpath $(shell echo $(DIR) | sed 's|/Users|/System/Volumes/Data/Users|'))
 
 all:
 	cat $(lastword $(MAKEFILE_LIST))
@@ -15,7 +15,8 @@ all:
 	echo "ENVIRONMENT=$(ENVIRONMENT)" >> $@
 	echo "PORT_HTTP=$(PORT_HTTP)" >> $@
 	echo "MOUNT_TYPE=$(MOUNT_TYPE)" >> $@
-	echo "DEVICE_DIR=$(DEVICE_DIR)" >> $@
+	echo "CURRENT_DIR=$(DIR)" >> $@
+	echo "CURRENT_VOLUME_DIR=$(CURRENT_VOLUME_DIR)" >> $@
 
 docker-compose.override.yml:
 	cp docker/$@ $@
