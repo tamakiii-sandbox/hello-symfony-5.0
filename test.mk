@@ -31,34 +31,42 @@ consistent: clean
 	make -f dev.mk .env MOUNT_TYPE=$@
 	docker-compose config
 	docker-compose run --rm php make -C app install
+	vm_stat
 	for i in $(NUMBERS); do \
 		docker-compose run --rm php time $(CMD); \
 	done
+	vm_stat
 
 delegated: clean
 	make -f dev.mk .env MOUNT_TYPE=$@
 	docker-compose config
 	docker-compose run --rm php make -C app install
+	vm_stat
 	for i in $(NUMBERS); do \
 		docker-compose run --rm php time $(CMD); \
 	done
+	vm_stat
 
 cached: clean
 	make -f dev.mk .env MOUNT_TYPE=$@
 	docker-compose config
 	docker-compose run --rm php make -C app install
+	vm_stat
 	for i in $(NUMBERS); do \
 		docker-compose run --rm php time $(CMD); \
 	done
+	vm_stat
 
 nfs: clean
 	make -f dev.mk .env MOUNT_TYPE=consistent
 	make -f dev.mk docker-compose.override.yml
 	docker-compose config
 	docker-compose run --rm php make -C app install
+	vm_stat
 	for i in $(NUMBERS); do \
 		docker-compose run --rm php time $(CMD); \
 	done
+	vm_stat
 
 clean:
 	docker-compose down -v
