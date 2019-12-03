@@ -22,4 +22,5 @@ docker-compose.override.yml:
 
 clean:
 	rm -rf .env
+	rm -rf docker-compose.override.yml
 
