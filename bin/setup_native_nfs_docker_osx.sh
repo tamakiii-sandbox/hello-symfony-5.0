@@ -5,9 +5,6 @@ set -eu
 PWD=$(cd $(dirname $0)/..; pwd)
 
 OS=`uname -s`
-OS_VERSION_MAJOR=`sw_vers -productVersion | awk -F '.' '{ print $1 }'`
-OS_VERSION_MINOR=`sw_vers -productVersion | awk -F '.' '{ print $2 }'`
-
 U=`id -u`
 G=`id -g`
 
@@ -57,10 +54,6 @@ else
   echo "ERROR: Please edit \"/etc/exports\" like \"sudo vim /etc/exports\" because of System Integrity Protection."
   echo "````"
   echo "/System/Volumes/Data/Users/ -alldirs -mapall=$U:$G localhost"
-  echo "````"
-  echo "  or as root if you like"
-  echo "````"
-  echo "/System/Volumes/Data/Users/ -alldirs -mapall=0:0 localhost"
   echo "````"
   exit 3
 fi
